@@ -8,7 +8,6 @@ import java.util.List;
 
 import es.lanyu.forum.Comentario;
 import es.lanyu.forum.Imprimible;
-//import es.lanyu.forum.Recomendacion;
 import es.lanyu.forum.Tema;
 import es.lanyu.forum.Usuario;
 import es.lanyu.forum.UsuarioExterno;
@@ -21,10 +20,10 @@ import com.github.likes.Likes;
 public class Main {
 
 	static List<Comentario> comentarios = new ArrayList<Comentario>(DatosPrueba.COMENTARIOS);  //Se crea como list para no tener que parsear o copiar a otra lista a la hora de ordenar
-	static final String MENSAJE_INSERCION_OK = "El comentario se añadió correctamente";
-	static final String MENSAJE_INSERCION_ERROR = "El comentario no se pudo añadir";
+	static final String MENSAJE_INSERCION_OK = "El comentario se anadio correctamente";
+	static final String MENSAJE_INSERCION_ERROR = "El comentario no se pudo annadir";
 
-	static List<Usuario> usuarios = new ArrayList();
+	static List<Usuario> usuarios = new ArrayList<Usuario>();
 
 	public static void main(String[] args) {
 
@@ -35,7 +34,7 @@ public class Main {
 		usuarios.add(comentarios.get(0).getUsuario());
 		usuarios.add(comentarios.get(1).getUsuario());
 		
-		comentar(usuario3, tema1, "Comentario añadido");
+		comentar(usuario3, tema1, "Comentario annadido");
 	
 		Usuario usuarioExterno = new UsuarioExterno("usuarioExterno");
 		comentar(usuarioExterno, tema1, "Soy un usuario externo");
@@ -98,8 +97,8 @@ public class Main {
 			}
 	}
 	
-	public static Usuario[] getUsuariosRecomendacion(Comentario comentario) {
-		int cantidadUsuarios = Comentario.getLikes(comentario);
+	public static <T> Usuario[] getUsuariosRecomendacion(T contenido) {
+		int cantidadUsuarios = Comentario.getLikes(contenido);
 		boolean hayUsuarios = (cantidadUsuarios != 0);
 		Usuario[] usuariosComentario = null;
 		if (hayUsuarios) {
@@ -107,7 +106,7 @@ public class Main {
 			usuariosComentario =  new Usuario[cantidadUsuarios];
 			String[] nombres = new String[cantidadUsuarios];
 			for (int i = 0; i < cantidadUsuarios; i++) {
-				nombres[i] = Likes.getLikesFor(comentario)[i];	//Recuperamos cada nombre
+				nombres[i] = Likes.getLikesFor(contenido)[i];	//Recuperamos cada nombre
 				for (Usuario usuario : usuarios) {
 					if (usuario.getUser().equals(nombres[i])) {
 						usuariosComentario[i] = usuario;
@@ -121,10 +120,6 @@ public class Main {
 		return (hayUsuarios)? usuariosComentario:null;
 	}
 	
-//	public static <T> int getLikes(T contenido) {
-//		return Likes.getLikesFor(contenido).length;
-//	}
-	
 	public static <T extends Imprimible> void getRecomendaciones(Collection<T> recomendables) {
 		String mensaje = "Recomendaciones (Likes):";
 		System.out.println(mensaje);
@@ -134,6 +129,18 @@ public class Main {
 	}
 	
 	public static <T extends Imprimible> String textoRecomendacion (T contenido) {
-		return (contenido.comentarioImprimible()+ " " + Likes.getLikesFor(contenido).length + "* [" + contenido.getUserToUpper() + "]");  
+		String nombres = "";
+		try {
+			Usuario[] users = getUsuariosRecomendacion(contenido);
+			if (users.length != 0) {
+				for (Usuario usuario : users) {
+					nombres += usuario.getUser() + ", ";
+				}
+				nombres = nombres.substring(0, nombres.length() -2);
+			}
+		} catch (Throwable e) {
+			
+		}
+		return (contenido.comentarioImprimible()+ " " + Likes.getLikesFor(contenido).length + "* [" + nombres + "]");  
 	}
 }

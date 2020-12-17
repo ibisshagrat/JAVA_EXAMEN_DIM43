@@ -21,6 +21,10 @@ public class Comentario implements Comparable<Comentario>, Imprimible{
 		return usuario;
 	}
 	
+	public String getContenidoImprimible() {
+		return comentario;
+	}
+	
 	public Comentario(Usuario usuario, String comentario, Tema tema, Instant fechaHora) {
 		super();
 		this.usuario = usuario;
