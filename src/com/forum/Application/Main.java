@@ -14,6 +14,8 @@ import es.lanyu.forum.Usuario;
 import es.lanyu.forum.UsuarioExterno;
 import es.lanyu.forum.UsuarioImpl;
 import es.lanyu.forum.test.DatosPrueba;
+
+import com.github.likes.Like;
 import com.github.likes.Likes;
 
 public class Main {
@@ -40,16 +42,40 @@ public class Main {
 		
 		mostrarComentariosOrdenados();
 		
-		Likes.recomendar(comentarios.get(0), usuario3.toString());
-		Likes.recomendar(comentarios.get(0), usuarios.get(1).getUser());
+		Likes.recomendar(comentarios.get(1), usuario3.toString());
 
-		getUsuariosRecomendacion(comentarios.get(0));
+//		getUsuariosRecomendacion(comentarios.get(0));
+
+		
+		Comparator<Comentario> compararPorRecomendaciones = new Comparator<>() {
+		
+			public int compare(Comentario obj1, Comentario obj2) {
+				int resultado = 0;
+				if (((Integer) Comentario.getLikes(obj2)).compareTo((Integer) Comentario.getLikes(obj1)) == 0) {
+					resultado = obj2.getFechaHora().compareTo(obj1.getFechaHora());
+				} else {
+					resultado = ((Integer) Comentario.getLikes(obj2)).compareTo((Integer) Comentario.getLikes(obj1));
+				}
+				return resultado;
+				
+			}
+		};
+		
+		Likes.recomendar(comentarios.get(2), usuarios.get(2).getUser());
+		Likes.recomendar(comentarios.get(2), usuarios.get(2).getUser());
+		Likes.recomendar(comentarios.get(2), usuarios.get(2).getUser());
+		Likes.recomendar(comentarios.get(1), usuarios.get(2).getUser());
+		Likes.recomendar(comentarios.get(0), usuarios.get(2).getUser());
+		Likes.recomendar(comentarios.get(0), usuarios.get(2).getUser());
+
+
+
+
+		Collections.sort(comentarios, compararPorRecomendaciones);
 		System.out.println();
 		getRecomendaciones(comentarios);
+
 		
-//		Comparator<Comentario> compararPorRecomendaciones = new Comparator<>() {
-//		};
-//		
 	}
 	
 	
@@ -73,7 +99,7 @@ public class Main {
 	}
 	
 	public static Usuario[] getUsuariosRecomendacion(Comentario comentario) {
-		int cantidadUsuarios = getLikes(comentario);
+		int cantidadUsuarios = Comentario.getLikes(comentario);
 		boolean hayUsuarios = (cantidadUsuarios != 0);
 		Usuario[] usuariosComentario = null;
 		if (hayUsuarios) {
@@ -95,9 +121,9 @@ public class Main {
 		return (hayUsuarios)? usuariosComentario:null;
 	}
 	
-	public static <T> int getLikes(T contenido) {
-		return Likes.getLikesFor(contenido).length;
-	}
+//	public static <T> int getLikes(T contenido) {
+//		return Likes.getLikesFor(contenido).length;
+//	}
 	
 	public static <T extends Imprimible> void getRecomendaciones(Collection<T> recomendables) {
 		String mensaje = "Recomendaciones (Likes):";
@@ -108,6 +134,6 @@ public class Main {
 	}
 	
 	public static <T extends Imprimible> String textoRecomendacion (T contenido) {
-		return (contenido.comentarioImprimible()+ " " + getLikes(contenido) + "* [" + contenido.getUserToUpper() + "]");  
+		return (contenido.comentarioImprimible()+ " " + Likes.getLikesFor(contenido).length + "* [" + contenido.getUserToUpper() + "]");  
 	}
 }

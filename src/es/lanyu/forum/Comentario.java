@@ -2,6 +2,8 @@ package es.lanyu.forum;
 
 import java.time.Instant;
 
+import com.github.likes.Likes;
+
 public class Comentario implements Comparable<Comentario>, Imprimible{
 	
 	private final int LONGITUD_COMENTARIO = 20;
@@ -57,5 +59,8 @@ public class Comentario implements Comparable<Comentario>, Imprimible{
 		return arg0.getFechaHora().compareTo(getFechaHora());
 	}
 	
+	public static <T> int getLikes(T contenido) {
+		return Likes.getLikesFor(contenido).length;
+	}
 	
 }
