@@ -15,6 +15,10 @@ public class Comentario implements Comparable<Comentario>{
 		return fechaHora;
 	}
 	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+	
 	public Comentario(Usuario usuario, String comentario, Tema tema, Instant fechaHora) {
 		super();
 		this.usuario = usuario;
@@ -39,7 +43,7 @@ public class Comentario implements Comparable<Comentario>{
 	
 	@Override
 	public String toString() {
-		return usuario.toString().toUpperCase()  + ": " + comentarioImprible() + " en Tema: " + tema.toString() + " a las "
+		return usuario.getUser().toUpperCase()  + ": " + comentarioImprible() + " en Tema: " + tema.toString() + " a las "
 				+ fechaHora;
 	}
 

@@ -8,6 +8,10 @@ public class UsuarioImpl implements Usuario {
 		this.user = user;
 	}
 
+	public String getUser() {
+		return user;
+	}
+	
 	@Override
 	public String toString() {
 		return user;

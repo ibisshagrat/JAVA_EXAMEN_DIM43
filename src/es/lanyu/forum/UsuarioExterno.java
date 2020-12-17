@@ -9,8 +9,7 @@ public class UsuarioExterno extends User implements Usuario{
 		super(userName);
 	}
 	
-	@Override
-	public String getUserName() {
+	public String getUser() {
 		return super.getUserName();
 	}
 
