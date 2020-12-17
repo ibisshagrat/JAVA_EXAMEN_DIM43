@@ -31,7 +31,8 @@ public class Comentario implements Comparable<Comentario>{
 		this(usuario, comentario, tema, Instant.now());
 	}
 	
-	public String comentarioImprible() {
+	public String comentarioImprimible() {
+		
 		String mensaje = "";
 		if (comentario.length() > LONGITUD_COMENTARIO) {
 			mensaje = comentario.substring(0, LONGITUD_COMENTARIO) + "...";
@@ -41,9 +42,13 @@ public class Comentario implements Comparable<Comentario>{
 		return mensaje;
 	}
 	
+	public String getUserToUpper() {
+		return usuario.getUser().toUpperCase();
+	}
+	
 	@Override
 	public String toString() {
-		return usuario.getUser().toUpperCase()  + ": " + comentarioImprible() + " en Tema: " + tema.toString() + " a las "
+		return getUserToUpper()  + ": " + comentarioImprimible() + " en Tema: " + tema.toString() + " a las "
 				+ fechaHora;
 	}
 

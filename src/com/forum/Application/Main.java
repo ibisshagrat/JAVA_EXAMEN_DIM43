@@ -3,15 +3,17 @@ package com.forum.Application;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import es.lanyu.forum.Comentario;
-import es.lanyu.forum.Recomendacion;
+//import es.lanyu.forum.Recomendacion;
 import es.lanyu.forum.Tema;
 import es.lanyu.forum.Usuario;
 import es.lanyu.forum.UsuarioExterno;
 import es.lanyu.forum.UsuarioImpl;
 import es.lanyu.forum.test.DatosPrueba;
+import com.github.likes.Likes;
 
 public class Main {
 
@@ -37,10 +39,15 @@ public class Main {
 		
 		mostrarComentariosOrdenados();
 		
-		Recomendacion.recomendar(comentarios.get(0), usuario3.toString());
-		Recomendacion.recomendar(comentarios.get(0), usuarios.get(1).getUser());
+		Likes.recomendar(comentarios.get(0), usuario3.toString());
+		Likes.recomendar(comentarios.get(0), usuarios.get(1).getUser());
 
 		getUsuariosRecomendacion(comentarios.get(0));
+		System.out.println();
+		getRecomendaciones(comentarios);
+		
+		Comparator<Comentario> compararPorRecomendaciones = new Comparator<>() {
+		};
 		
 	}
 	
@@ -65,7 +72,7 @@ public class Main {
 	}
 	
 	public static Usuario[] getUsuariosRecomendacion(Comentario comentario) {
-		int cantidadUsuarios = Recomendacion.getLikesFor(comentario).length;
+		int cantidadUsuarios = getLikes(comentario);
 		boolean hayUsuarios = (cantidadUsuarios != 0);
 		Usuario[] usuariosComentario = null;
 		if (hayUsuarios) {
@@ -73,11 +80,11 @@ public class Main {
 			usuariosComentario =  new Usuario[cantidadUsuarios];
 			String[] nombres = new String[cantidadUsuarios];
 			for (int i = 0; i < cantidadUsuarios; i++) {
-				nombres[i] = Recomendacion.getLikesFor(comentario)[i];	//Recuperamos cada nombre
+				nombres[i] = Likes.getLikesFor(comentario)[i];	//Recuperamos cada nombre
 				for (Usuario usuario : usuarios) {
 					if (usuario.getUser().equals(nombres[i])) {
 						usuariosComentario[i] = usuario;
-						System.out.println(usuariosComentario[i].getUser());
+//						System.out.println(usuariosComentario[i].getUser());
 						hayUsuarios = true;
 						break;
 					}
@@ -85,5 +92,17 @@ public class Main {
 			}
 		}
 		return (hayUsuarios)? usuariosComentario:null;
+	}
+	
+	public static int getLikes(Comentario comentario) {
+		return Likes.getLikesFor(comentario).length;
+	}
+	
+	public static void getRecomendaciones(Collection<Comentario> comentarios) {
+		String mensaje = "Recomendaciones (Likes):";
+		System.out.println(mensaje);
+		for (Comentario comentario : comentarios) {
+			System.out.println(comentario.comentarioImprimible()+ " " + getLikes(comentario) + "* [" + comentario.getUserToUpper() + "]");  
+		}
 	}
 }
