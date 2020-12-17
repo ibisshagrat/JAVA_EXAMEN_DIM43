@@ -2,7 +2,7 @@ package es.lanyu.forum;
 
 import java.time.Instant;
 
-public class Comentario implements Comparable<Comentario>{
+public class Comentario implements Comparable<Comentario>, Imprimible{
 	
 	private final int LONGITUD_COMENTARIO = 20;
 	

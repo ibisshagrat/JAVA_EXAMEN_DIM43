@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import es.lanyu.forum.Comentario;
+import es.lanyu.forum.Imprimible;
 //import es.lanyu.forum.Recomendacion;
 import es.lanyu.forum.Tema;
 import es.lanyu.forum.Usuario;
@@ -46,9 +47,9 @@ public class Main {
 		System.out.println();
 		getRecomendaciones(comentarios);
 		
-		Comparator<Comentario> compararPorRecomendaciones = new Comparator<>() {
-		};
-		
+//		Comparator<Comentario> compararPorRecomendaciones = new Comparator<>() {
+//		};
+//		
 	}
 	
 	
@@ -94,15 +95,19 @@ public class Main {
 		return (hayUsuarios)? usuariosComentario:null;
 	}
 	
-	public static int getLikes(Comentario comentario) {
-		return Likes.getLikesFor(comentario).length;
+	public static <T> int getLikes(T contenido) {
+		return Likes.getLikesFor(contenido).length;
 	}
 	
-	public static void getRecomendaciones(Collection<Comentario> comentarios) {
+	public static <T extends Imprimible> void getRecomendaciones(Collection<T> recomendables) {
 		String mensaje = "Recomendaciones (Likes):";
 		System.out.println(mensaje);
-		for (Comentario comentario : comentarios) {
-			System.out.println(comentario.comentarioImprimible()+ " " + getLikes(comentario) + "* [" + comentario.getUserToUpper() + "]");  
+		for (T c : recomendables) {
+			System.out.println(textoRecomendacion(c));
 		}
+	}
+	
+	public static <T extends Imprimible> String textoRecomendacion (T contenido) {
+		return (contenido.comentarioImprimible()+ " " + getLikes(contenido) + "* [" + contenido.getUserToUpper() + "]");  
 	}
 }
