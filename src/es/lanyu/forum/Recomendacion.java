@@ -1,5 +1,8 @@
+
 package es.lanyu.forum;
 
-public class Recomendacion {
+import com.github.likes.Likes;
 
+public class Recomendacion extends Likes {
+	
 }

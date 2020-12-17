@@ -30,7 +30,7 @@ public class Main {
 		Usuario usuarioExterno = new UsuarioExterno("usuarioExterno");
 		comentar(usuarioExterno, tema1, "Soy un usuario externo");
 		
-		mostrarComentarios();
+		mostrarComentariosOrdenados();
 
 	}
 	
@@ -47,7 +47,7 @@ public class Main {
 		return resultado;
 	}
 	
-	public static void mostrarComentarios() {
+	public static void mostrarComentariosOrdenados() {
 		Collections.sort(comentarios);
 		for (Comentario c : comentarios) {
 			System.out.println(c.toString());
