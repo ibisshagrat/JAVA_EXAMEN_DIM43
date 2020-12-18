@@ -34,10 +34,14 @@ public class Comentario implements Comparable<Comentario>, Imprimible{
 	}
 	
 	public String comentarioImprimible() {
+		return comentarioImprimible(0, 20, LONGITUD_COMENTARIO);
+	}
+	
+	public String comentarioImprimible(int posicionInicial, int posicionFinal, int longitudComentario) {
 		
 		String mensaje = "";
-		if (comentario.length() > LONGITUD_COMENTARIO) {
-			mensaje = comentario.substring(0, LONGITUD_COMENTARIO) + "...";
+		if (comentario.length() > longitudComentario) {
+			mensaje = comentario.substring(posicionInicial, posicionFinal) + "...";
 		} else {
 			mensaje = comentario;
 		}
