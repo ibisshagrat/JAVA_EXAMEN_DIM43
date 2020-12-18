@@ -56,7 +56,7 @@ public class Comentario implements Comparable<Comentario>, Imprimible{
 
 	@Override
 	public int compareTo(Comentario arg0) {
-		return arg0.getFechaHora().compareTo(getFechaHora());
+		return arg0.getFechaHora().compareTo(this.getFechaHora());
 	}
 	
 	public static <T> int getLikes(T contenido) {
