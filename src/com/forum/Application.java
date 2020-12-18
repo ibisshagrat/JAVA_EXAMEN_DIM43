@@ -1,4 +1,4 @@
-package com.forum.Application;
+package com.forum;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,7 +11,7 @@ import es.lanyu.forum.test.DatosPrueba;
 
 import com.github.likes.*;
 
-public class Main {
+public class Application {
 	// Se crea como list para no tener que parsear o copiar a otra lista a la hora de ordenar
 	static List<Comentario> comentarios = new ArrayList<Comentario>(DatosPrueba.COMENTARIOS); 
 	static final String MENSAJE_INSERCION_OK = "El comentario se annadio correctamente";
