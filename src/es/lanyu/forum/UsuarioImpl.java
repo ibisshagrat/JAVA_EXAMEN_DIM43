@@ -2,20 +2,20 @@ package es.lanyu.forum;
 
 public class UsuarioImpl implements Usuario {
 
-	private String user;
+	private String userName;
 
-	public UsuarioImpl(String user) {
-		this.user = user;
+	public UsuarioImpl(String userName) {
+		this.userName = userName;
 	}
 
-	public String getUser() {
-		return user;
+	public String getUserName() {
+		return userName;
 	}
 	
 	@Override
 	public String toString() {
-		return user;
+		return userName;
 	}
-	
+
 	
 }

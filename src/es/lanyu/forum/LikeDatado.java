@@ -1,9 +1,11 @@
 package es.lanyu.forum;
 
-import java.time.Instant;
+import com.github.likes.Like;
 
-public interface LikeDatado {
+public class LikeDatado<T extends DeUsuario & Datable> extends Like <T> {
 
-	Usuario getUsuario();
-	Instant getFecha();
+	public LikeDatado(T content, String user) {
+		super(content, user);
+	}
+
 }

@@ -39,28 +39,33 @@ public class Application {
 
 		Comparator<Comentario> compararPorRecomendaciones = new Comparator<>() {
 
-			public int compare(Comentario obj1, Comentario obj2) {
-				int resultado = 0;
-				if (((Integer) Comentario.getLikes(obj2)).compareTo((Integer) Comentario.getLikes(obj1)) == 0) {
-					resultado = obj2.getFechaHora().compareTo(obj1.getFechaHora());
-				} else {
-					resultado = ((Integer) Comentario.getLikes(obj2)).compareTo((Integer) Comentario.getLikes(obj1));
+			@Override
+			public int compare(Comentario c1, Comentario c2) {
+				int resultado = ((Integer) Comentario.getLikes(c2)).compareTo((Integer) Comentario.getLikes(c1));
+				if (resultado == 0) {
+					resultado = c2.getFechaHora().compareTo(c1.getFechaHora());
 				}
 				return resultado;
 
 			}
 		};
 
-		Likes.recomendar(comentarios.get(2), usuarios.get(2).getUser());
-		Likes.recomendar(comentarios.get(2), usuarios.get(2).getUser());
-		Likes.recomendar(comentarios.get(2), usuarios.get(2).getUser());
-		Likes.recomendar(comentarios.get(1), usuarios.get(2).getUser());
-		Likes.recomendar(comentarios.get(0), usuarios.get(2).getUser());
-		Likes.recomendar(comentarios.get(0), usuarios.get(2).getUser());
+		Likes.recomendar(comentarios.get(2), usuarios.get(2).getUserName());
+		Likes.recomendar(comentarios.get(2), usuarios.get(2).getUserName());
+		Likes.recomendar(comentarios.get(2), usuarios.get(2).getUserName());
+		Likes.recomendar(comentarios.get(1), usuarios.get(2).getUserName());
+		Likes.recomendar(comentarios.get(0), usuarios.get(2).getUserName());
+		Likes.recomendar(comentarios.get(0), usuarios.get(2).getUserName());
 
+		//Con boundaries
+		LikeDatado<Comentario> likeDatado = new LikeDatado<Comentario>(comentarios.get(2), usuario3.getUserName());
+		recomendarDatado(likeDatado);
+		
 		Collections.sort(comentarios, compararPorRecomendaciones);
 		System.out.println();
 		getRecomendaciones(comentarios);
+		
+
 
 	}
 
@@ -94,7 +99,7 @@ public class Application {
 			for (int i = 0; i < cantidadUsuarios; i++) {
 				nombres[i] = Likes.getLikesFor(contenido)[i]; // Recuperamos cada nombre
 				for (Usuario usuario : usuarios) {
-					if (usuario.getUser().equals(nombres[i])) {
+					if (usuario.getUserName().equals(nombres[i])) {
 						usuariosComentario[i] = usuario;
 						hayUsuarios = true;
 						break;
@@ -119,7 +124,7 @@ public class Application {
 			Usuario[] users = getUsuariosRecomendacion(contenido);
 			if (users.length != 0) {
 				for (Usuario usuario : users) {
-					nombres += usuario.getUser() + ", ";
+					nombres += usuario.getUserName() + ", ";
 				}
 				nombres = nombres.substring(0, nombres.length() - 2);
 			}
@@ -128,5 +133,9 @@ public class Application {
 		}
 
 		return (contenido.comentarioImprimible() + " " + Likes.getLikesFor(contenido).length + "* [" + nombres + "]");
+	}
+	
+	public static <T extends Datable & DeUsuario> boolean recomendarDatado(LikeDatado<T> content) {
+		return Likes.getLikes().add(content); 
 	}
 }

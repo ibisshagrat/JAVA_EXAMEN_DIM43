@@ -9,7 +9,7 @@ public class UsuarioExterno extends User implements Usuario{
 		super(userName);
 	}
 	
-	public String getUser() {
+	public String getUserName() {
 		return super.getUserName();
 	}
 

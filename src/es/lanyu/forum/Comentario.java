@@ -4,7 +4,7 @@ import java.time.Instant;
 
 import com.github.likes.Likes;
 
-public class Comentario implements Comparable<Comentario>, Imprimible{
+public class Comentario implements Comparable<Comentario>, Datable, DeUsuario, Imprimible{
 	
 	private final int LONGITUD_COMENTARIO = 20;
 	
@@ -33,6 +33,10 @@ public class Comentario implements Comparable<Comentario>, Imprimible{
 		this(usuario, comentario, tema, Instant.now());
 	}
 	
+	public Comentario() {
+		this(null, null, null);
+	}
+	
 	public String comentarioImprimible() {
 		return comentarioImprimible(0, 20, LONGITUD_COMENTARIO);
 	}
@@ -49,7 +53,7 @@ public class Comentario implements Comparable<Comentario>, Imprimible{
 	}
 	
 	public String getUserToUpper() {
-		return usuario.getUser().toUpperCase();
+		return usuario.getUserName().toUpperCase();
 	}
 	
 	@Override
@@ -65,6 +69,16 @@ public class Comentario implements Comparable<Comentario>, Imprimible{
 	
 	public static <T> int getLikes(T contenido) {
 		return Likes.getLikesFor(contenido).length;
+	}
+
+	@Override
+	public Usuario getUser() {
+		return getUsuario();
+	}
+
+	@Override
+	public Instant getFecha() {
+		return getFechaHora();
 	}
 	
 }
